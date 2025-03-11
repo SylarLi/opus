@@ -59,7 +59,7 @@ extern "C"
 /*!
  * Initialize/reset the resampler state for a given pair of input/output sampling rates
 */
-opus_int silk_resampler_init(
+OPUS_EXPORT opus_int silk_resampler_init(
     silk_resampler_state_struct *S,                 /* I/O  Resampler state                                             */
     opus_int32                  Fs_Hz_in,           /* I    Input sampling rate (Hz)                                    */
     opus_int32                  Fs_Hz_out,          /* I    Output sampling rate (Hz)                                   */
@@ -69,7 +69,7 @@ opus_int silk_resampler_init(
 /*!
  * Resampler: convert from one sampling rate to another
  */
-opus_int silk_resampler(
+OPUS_EXPORT opus_int silk_resampler(
     silk_resampler_state_struct *S,                 /* I/O  Resampler state                                             */
     opus_int16                  out[],              /* O    Output signal                                               */
     const opus_int16            in[],               /* I    Input signal                                                */
