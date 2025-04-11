@@ -13,14 +13,14 @@ jobs:
             name: "Windows/Dll/X64/Release",
             os: windows-latest,
             config: Release,
-            args: -G "Visual Studio 17 2022" -A x64,
+            args: -G "Visual Studio 17 2022" -A x64 -DBUILD_SHARED_LIBS=ON,
             upload: "windows-x64"
           }
         - {
             name: "Linux/So/X64/Release",
             os: ubuntu-latest,
             config: Release,
-            args: "",
+            args: "-DBUILD_SHARED_LIBS=ON",
             upload: "linux-x64"
           }
         - {
@@ -34,21 +34,21 @@ jobs:
             name: "Android/So/ARMv7/Release",
             os: ubuntu-latest,
             config: Release,
-            args: "-DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake -DANDROID_ABI=armeabi-v7a",
+            args: "-DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake -DANDROID_ABI=armeabi-v7a -DBUILD_SHARED_LIBS=ON",
             upload: "android-armv7"
           }
         - {
             name: "Android/So/ARMv8/Release",
             os: ubuntu-latest,
             config: Release,
-            args: "-DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake -DANDROID_ABI=arm64-v8a",
+            args: "-DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake -DANDROID_ABI=arm64-v8a -DBUILD_SHARED_LIBS=ON",
             upload: "android-armv8"
           }
         - {
             name: "iOS/Dll/arm64/Release",
             os: macos-latest,
             config: Release,
-            args: -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_ARCHITECTURES=arm64,
+            args: -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_ARCHITECTURES=arm64 -DBUILD_SHARED_LIBS=ON,
             upload: "ios"
           }
     steps:
@@ -79,13 +79,13 @@ jobs:
       - name: Configure for Android
         if: contains(matrix.config.name, 'Android')
         working-directory: ./build
-        run: cmake .. ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -DBUILD_SHARED_LIBS=ON
+        run: cmake .. ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }}
         env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
       - name: Configure for others
         if: ${{ !contains(matrix.config.name, 'Android') }}
         working-directory: ./build
-        run: cmake .. ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -DBUILD_SHARED_LIBS=ON
+        run: cmake .. ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }}
       - name: Build
         working-directory: ./build
         run: cmake --build . -j 2 --config ${{ matrix.config.config }}
