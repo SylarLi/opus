@@ -27,7 +27,7 @@ jobs:
             name: "MacOSX/So/ARM64/Release",
             os: macos-latest,
             config: Release,
-            args: -DBUILD_SHARED_LIBS=ON
+            args: -DBUILD_SHARED_LIBS=ON,
             upload: "macos-arm64"
           }
         - {
