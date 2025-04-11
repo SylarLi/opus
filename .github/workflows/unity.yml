@@ -63,7 +63,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Install AutoConf, AutoMake and LibTool # Needed for autogen.sh
-        if: startWith(matrix.config.os, 'macos')
+        if: startsWith(matrix.config.os, 'macos')
         run: brew install autoconf automake libtool
       - name: Download models Windows
         if: contains(matrix.config.name, 'Windows')
