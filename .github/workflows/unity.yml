@@ -13,37 +13,43 @@ jobs:
             name: "Windows/Dll/X64/Release",
             os: windows-latest,
             config: Release,
-            args: -G "Visual Studio 17 2022" -A Win32
+            args: -G "Visual Studio 17 2022" -A Win32,
+            upload: "windows-x64"
           }
         # - {
         #     name: "Linux/So/X64/Release",
         #     os: ubuntu-latest,
         #     config: Release,
-        #     args: ""
+        #     args: "",
+        #     upload: "linux-x64"
         #   }
         # - {
         #     name: "MacOSX/Framework/X64/Release",
         #     os: macos-latest,
         #     config: Release,
-        #     args: -DBUILD_FRAMEWORK=ON -DCMAKE_INSTALL_PREFIX=install
+        #     args: -DBUILD_FRAMEWORK=ON -DCMAKE_INSTALL_PREFIX=install,
+        #     upload: "macos"
         #   }
         # - {
         #     name: "Android/So/ARMv7/Release",
         #     os: ubuntu-latest,
         #     config: Release,
-        #     args: "-DCMAKE_TOOLCHAIN_FILE=${ANDROID_HOME}/ndk/25.2.9519653/build/cmake/android.toolchain.cmake -DANDROID_ABI=armeabi-v7a"
+        #     args: "-DCMAKE_TOOLCHAIN_FILE=${ANDROID_HOME}/ndk/25.2.9519653/build/cmake/android.toolchain.cmake -DANDROID_ABI=armeabi-v7a",
+        #     upload: "android-armv7"
         #   }
         # - {
         #     name: "Android/So/ARMv8/Release",
         #     os: ubuntu-latest,
         #     config: Release,
-        #     args: "-DCMAKE_TOOLCHAIN_FILE=${ANDROID_HOME}/ndk/25.2.9519653/build/cmake/android.toolchain.cmake -DANDROID_ABI=arm64-v8a"
+        #     args: "-DCMAKE_TOOLCHAIN_FILE=${ANDROID_HOME}/ndk/25.2.9519653/build/cmake/android.toolchain.cmake -DANDROID_ABI=arm64-v8a",
+        #     upload: "android-armv8"
         #   }
         # - {
         #     name: "iOS/Dll/arm64/Release",
         #     os: macos-latest,
         #     config: Release,
-        #     args: -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_ARCHITECTURES=arm64
+        #     args: -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_ARCHITECTURES=arm64,
+        #     upload: "ios"
         #   }
     steps:
       - uses: actions/checkout@v3
@@ -68,4 +74,9 @@ jobs:
         run: cmake .. ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }} -DBUILD_SHARED_LIBS=ON
       - name: Build
         working-directory: ./build
-        run: cmake --build . -j 2 --config ${{ matrix.config.config }} --target package
+        run: cmake --build . -j 2 --config ${{ matrix.config.config }}
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: ${{ matrix.config.upload }}.zip
+          path: ./build/Release/*
