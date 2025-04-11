@@ -2,7 +2,7 @@ name: Build libs for Unity
 on:
   workflow_dispatch:
 jobs:
-  Build Libs:
+  BuildLibs:
     name: CMake/${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
     strategy:
