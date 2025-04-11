@@ -24,11 +24,11 @@ jobs:
             upload: "linux-x64"
           }
         - {
-            name: "MacOSX/Framework/X64/Release",
+            name: "MacOSX/Lib/ARM64/Release",
             os: macos-latest,
             config: Release,
-            args: -DBUILD_FRAMEWORK=ON -DCMAKE_INSTALL_PREFIX=install,
-            upload: "macos"
+            args: "",
+            upload: "macos-arm64"
           }
         - {
             name: "Android/So/ARMv7/Release",
