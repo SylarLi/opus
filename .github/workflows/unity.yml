@@ -45,10 +45,10 @@ jobs:
             upload: "android-armv8"
           }
         - {
-            name: "iOS/Dll/arm64/Release",
+            name: "iOS/Lib/arm64/Release",
             os: macos-latest,
             config: Release,
-            args: -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_ARCHITECTURES=arm64 -DBUILD_SHARED_LIBS=ON,
+            args: -G "Unix Makefiles" -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_ARCHITECTURES=arm64,
             upload: "ios"
           }
     steps:
