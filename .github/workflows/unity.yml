@@ -24,7 +24,7 @@ jobs:
             upload: "linux-x64"
           }
         - {
-            name: "MacOSX/Lib/ARM64/Release",
+            name: "MacOSX/So/ARM64/Release",
             os: macos-latest,
             config: Release,
             args: "",
